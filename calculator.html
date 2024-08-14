@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="calculator.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+</head>
+<body class="bg-slate-500 h-screen flex items-center justify-center text-xl font-semibold">
+    <div class=" h-1/2 flex w-1/4 flex-col items-center justify-center bg-orange-950 p-4 rounded-lg">
+        <input type="text" class=" text-center text-2xl font-sans inputcalc w-full h-12 rounded-md mb-2 bg-black" readonly>
+        
+       <div class=" w-full grid grid-cols-4 " >
+       
+        <button class="btn">1</button><button class="btn">2</button><button class="btn">3</button><button class="btnoperation">+</button>
+       </div>
+       <div class=" grid grid-cols-4 w-full">
+        <button class="btn">4</button><button class="btn">5</button><button class="btn">6</button><button class="btnoperation">-</button>
+       </div>
+       <div class=" grid grid-cols-4 w-full">
+        <button class="btn">7</button><button class="btn">8</button><button class="btn">9</button><button class="btnoperation">x</button>
+       </div>
+       <div class="grid grid-cols-4 w-full ">
+        <button class="btn">0</button><button class="btn">00</button><button class="btn">.</button><button class="btnoperation">/</button>
+    </div>
+    <div class="grid grid-cols-4 w-full">
+     <button class="onbtn special">ON</button><button class="offbtn special">OFF</button><button class="deletebtn special">DEL</button><button class="btnoutput ">=</button>
+    </div>
+
+ </div>
+ <script>
+    let string=''
+    let string2=''
+    const userinput=document.querySelector('.inputcalc')
+    const allinputbuttons=document.querySelectorAll('.btn')
+    const operations=document.querySelectorAll('.btnoperation')
+    const equaloperator=document.querySelector('.btnoutput')
+    let firstvalue=''
+    let secondvalue=''
+    let char;
+    let canedit=true
+    let allowedtogivenewinput=true
+    let allowedtocalculate=false
+    let isresultdisplayed=false
+    
+
+  allinputbuttons.forEach(function(button){ 
+        button.addEventListener('click',function (e) {
+            if(allowedtogivenewinput &&allowedtocalculate){
+           if(canedit) {string=string+button.innerHTML
+            userinput.value=string
+        }
+            else{
+                string2=string2+button.innerHTML
+                userinput.value=string2
+            }}
+            
+        })
+
+    })
+    
+
+    
+    operations.forEach(function(operation){
+        operation.addEventListener('click',function (e){
+            allowedtogivenewinput=true
+            isresultdisplayed=false
+            canedit=false
+            firstvalue=string
+            string=''
+            char=e.target.innerHTML
+           
+            
+
+
+        }
+        )
+    })
+
+equaloperator.addEventListener('click',function (e) {
+   if (string2!='') {
+    secondvalue=string2
+    string2=''
+    allowedtogivenewinput=false
+  
+    let expression=firstvalue+char.replace('x','*')+secondvalue
+   let result= eval(expression)
+   userinput.value=result
+   isresultdisplayed=true
+   string=result
+   char=''
+} 
+  
+    
+   
+                
+            })
+            const off=document.querySelector('.offbtn')
+            const on=document.querySelector('.onbtn')
+            const delet=document.querySelector('.deletebtn')
+            off.addEventListener('click',function (e) {
+                allowedtocalculate=false
+                isresultdisplayed=false
+                userinput.style.backgroundColor='black';
+                userinput.value=''
+                
+                string=''
+                string2=''
+                firstvalue=''
+                secondvalue=''
+                
+            })
+            on.addEventListener('click',function (e) {
+                isresultdisplayed=false
+                allowedtocalculate=true
+                allowedtogivenewinput=true
+                userinput.style.backgroundColor='skyblue';
+                userinput.value=''
+                string=''
+                string2=''
+                firstvalue=''
+                secondvalue=''
+                
+            })
+            delet.addEventListener('click',function (e) {
+                
+                 if (!isresultdisplayed) {
+                    
+                    
+                
+                if (canedit) {
+                    string=string.slice(0,-1)
+                    userinput.value=string
+                    
+                }
+                else{
+                    string2=string2.slice(0,-1)
+                    userinput.value=string2
+                }
+            }
+            })
+
+            
+
+
+ </script>
+</body>
+</html>
